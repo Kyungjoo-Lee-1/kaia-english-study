@@ -1,10 +1,9 @@
 import Header from "@/app/components/Header";
 import PostCard from "@/app/components/PostCard";
+import RankingBoard from "@/app/components/RankingBoard";
+import GoalProgressBar from "@/app/components/GoalProgressBar";
+import WeeklyBestBanner from "@/app/components/WeeklyBestBanner";
 import { posts } from "@/app/data/posts";
-import { calcTotalPenalty, members, calcPenalty } from "@/app/data/members";
-
-const totalPenalty = calcTotalPenalty();
-const topDebtor = [...members].sort((a, b) => calcPenalty(b) - calcPenalty(a))[0];
 
 const stats = [
   { label: "참여 인원", value: "24명" },
@@ -30,7 +29,7 @@ export default function Home() {
         <section id="about" className="pt-14 pb-10 text-center">
           <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-sm font-medium px-4 py-1.5 rounded-full mb-5 border border-blue-100 dark:border-blue-900">
             <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-            4주차 진행 중
+            3주차 진행 중
           </div>
           <h1 className="text-4xl font-extrabold text-slate-900 dark:text-white leading-tight mb-4">
             KAIA English<br />
@@ -54,40 +53,24 @@ export default function Home() {
           </a>
         </section>
 
-        {/* 벌금 배너 */}
-        <a href="/dashboard" className="block mb-4 group">
-          <div className="bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 transition-colors rounded-2xl p-5 flex items-center justify-between text-white">
-            <div>
-              <p className="text-red-100 text-xs mb-1">현재까지 누적 벌금</p>
-              <p className="text-3xl font-extrabold tracking-tight">
-                {totalPenalty.toLocaleString()}
-                <span className="text-lg font-semibold ml-1">원</span>
-              </p>
-              <p className="text-red-200 text-xs mt-1">
-                최다 벌금 · {topDebtor.name} ({calcPenalty(topDebtor).toLocaleString()}원)
-              </p>
-            </div>
-            <div className="flex flex-col items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-xs text-red-200">자세히 보기 →</span>
-            </div>
-          </div>
-        </a>
+        {/* Weekly Best */}
+        <WeeklyBestBanner />
+
+        {/* Goal Progress Bar */}
+        <GoalProgressBar />
 
         {/* Stats */}
         <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 p-4 text-center"
-            >
+            <div key={stat.label} className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 p-4 text-center">
               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stat.value}</div>
               <div className="text-xs text-slate-400 dark:text-zinc-500 mt-1">{stat.label}</div>
             </div>
           ))}
         </section>
+
+        {/* Ranking */}
+        <RankingBoard />
 
         {/* Rules */}
         <section className="bg-blue-600 dark:bg-blue-700 rounded-2xl p-6 mb-10 text-white">
